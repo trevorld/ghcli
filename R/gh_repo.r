@@ -32,7 +32,7 @@
 #'   # requires `gh` installed and authenticated and working directory in Github repository
 #'   gh_repo_edit(visibility = "public") # make a private repo public
 #'   gh_repo_edit(delete_branch_on_merge = TRUE) # enable delete head branch when PRs are merged
-#'   gh_repo_edit(enable_merge_commit = FALSE) # disable merge commits
+#'   gh_repo_edit(enable_merge_commit = FALSE) # disable merging PRs with merge commits
 #' }
 #' @return `NULL` invisibly.
 #' @export
