@@ -66,7 +66,7 @@ gh_repo_edit <- function(repository = NULL,
         args <- c("repo", "edit", repository)
 
     accept_visibility_change_consequences <- !is.null(visibility)
-    if (isTRUE(accept_visibility_change_consequences))
+    if (isTRUE(accept_visibility_change_consequences) && gh_version() >= "2.61")
         args <- c(args, "--accept-visibility-change-consequences")
 
     if (!is.null(add_topic)) {
