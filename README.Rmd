@@ -20,6 +20,10 @@ This package provides functions that wrap some of the [Github command-line inter
 remotes::install_github("trevorld/ghcli")
 ```
 
+You also need to install the [`gh` command](https://cli.github.com/) and
+afterwards in a terminal run `gh auth login` to authenticate with your GitHub account or alternatively
+set an appropriate `GITHUB_TOKEN` environmental variable.
+
 ## <a name="examples">Examples</a>
 
 ## <a name="links">Related Links</a>
