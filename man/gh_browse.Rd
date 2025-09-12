@@ -37,10 +37,14 @@ To configure a web browser other than the default use
 the \code{BROWSER} environmental variable.
 }
 \examples{
-\dontrun{ # requires `gh` installed and authenticated and working directory in Github repository
+\dontrun{
+  # requires `gh` installed and authenticated and working directory in Github repository
   gh_browse() # open up repo home page
   gh_browse(23) # issue or pull request 23
   gh_browse("settings") # open up repo settings
   gh_browse("R/utils.r:5") # open up file page for R/utils.r at line 5
 }
+}
+\seealso{
+\url{https://cli.github.com/manual/gh_browse}
 }

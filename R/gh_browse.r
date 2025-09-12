@@ -19,19 +19,23 @@
 #' @param repo A string of another repository in `[HOST/]OWNER/REPO` format.
 #' @return `NULL` invisibly.
 #' @examples
-#' \dontrun{ # requires `gh` installed and authenticated and working directory in Github repository
+#' \dontrun{
+#'   # requires `gh` installed and authenticated and working directory in Github repository
 #'   gh_browse() # open up repo home page
 #'   gh_browse(23) # issue or pull request 23
 #'   gh_browse("settings") # open up repo settings
 #'   gh_browse("R/utils.r:5") # open up file page for R/utils.r at line 5
 #' }
+#' @seealso <https://cli.github.com/manual/gh_browse>
 #' @export
 gh_browse <- function(what = NULL, ..., branch = NULL, repo = NULL) {
     chkDots(...)
     assert_gh()
     args <- "browse"
     if (!is.null(what)) {
-        what <- as.character(what)
+        if (is.numeric(what))
+            what <- as.character(what)
+        assert_string(what)
         if (grepl(what, "^(commit|projects|settings|wiki)$")) {
             args <- c(args, switch(what,
                                    commit = "--commit",
@@ -42,10 +46,14 @@ gh_browse <- function(what = NULL, ..., branch = NULL, repo = NULL) {
             args <- c(args, what)
         }
     }
-    if (!is.null(branch))
+    if (!is.null(branch)) {
+        branch <- assert_string(branch)
         args <- c(args, "--branch", branch)
-    if (!is.null(repo))
+    }
+    if (!is.null(repo)) {
+        repo <- assert_string(repo)
         args <- c(args, "--repo", repo)
+    }
 
     gh_system2(args)
 

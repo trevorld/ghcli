@@ -1,0 +1,176 @@
+#' Edit repository settings.
+#'
+#' `gh_repo_edit()` edits repository settings.
+#' For all arguments `NULL` means don't edit this setting.
+#'
+#' @param repository Repository in `[HOST/]OWNER/REPO` format.
+#'                   Default is the repository the working directory is in.
+#' @param add_topic Either `NULL` or a character vector.
+#' @param allow_forking Either `NULL`, `TRUE`, or `FALSE`.
+#' @param allow_update_branch Either `NULL`, `TRUE`, or `FALSE`.
+#' @param default_branch A string.
+#' @param delete_branch_on_merge Either `NULL`, `TRUE`, or `FALSE`.
+#' @param description A string.
+#' @param enable_advanced_security Either `NULL`, `TRUE`, or `FALSE`.
+#' @param enable_discussions Either `NULL`, `TRUE`, or `FALSE`.
+#' @param enable_issues Either `NULL`, `TRUE`, or `FALSE`.
+#' @param enable_merge_commit Either `NULL`, `TRUE`, or `FALSE`.
+#' @param enable_projects Either `NULL`, `TRUE`, or `FALSE`.
+#' @param enable_rebase_merge Either `NULL`, `TRUE`, or `FALSE`.
+#' @param enable_secret_scanning Either `NULL`, `TRUE`, or `FALSE`.
+#' @param enable_secret_scanning_push_protection Either `NULL`, `TRUE`, or `FALSE`.
+#' @param enable_squash_merge Either `NULL`, `TRUE`, or `FALSE`.
+#' @param enable_wiki Either `NULL`, `TRUE`, or `FALSE`.
+#' @param homepage A string (of an URL).
+#' @param remove_topic Either `NULL` or a character vector.
+#' @param template Either `NULL`, `TRUE`, or `FALSE`.
+#' @param visibility Either `NULL`, "public", "private", "internal".
+#' @param ... Ignored
+#' @seealso <https://cli.github.com/manual/gh_repo_edit>
+#' @examples
+#' \dontrun{
+#'   # requires `gh` installed and authenticated and working directory in Github repository
+#'   gh_repo_edit(visibility = "public") # make a private repo public
+#'   gh_repo_edit(delete_branch_on_merge = TRUE) # enable delete head branch when PRs are merged
+#'   gh_repo_edit(enable_merge_commit = FALSE) # disable merge commits
+#' }
+#' @return `NULL` invisibly.
+#' @export
+gh_repo_edit <- function(repository = NULL,
+                         ...,
+                         add_topic = NULL,
+                         allow_forking = NULL,
+                         allow_update_branch = NULL,
+                         default_branch = NULL,
+                         delete_branch_on_merge = NULL,
+                         description = NULL,
+                         enable_advanced_security = NULL,
+                         enable_discussions = NULL,
+                         enable_issues = NULL,
+                         enable_merge_commit = NULL,
+                         enable_projects = NULL,
+                         enable_rebase_merge = NULL,
+                         enable_secret_scanning = NULL,
+                         enable_secret_scanning_push_protection = NULL,
+                         enable_squash_merge = NULL,
+                         enable_wiki = NULL,
+                         homepage = NULL,
+                         remove_topic = NULL,
+                         template = NULL,
+                         visibility = NULL
+                         ) {
+    chkDots(...)
+    if (is.null(repository))
+        args <- c("repo", "edit")
+    else
+        args <- c("repo", "edit", repository)
+
+    accept_visibility_change_consequences <- !is.null(visibility)
+    if (isTRUE(accept_visibility_change_consequences))
+        args <- c(args, "--accept-visibility-change-consequences")
+
+    if (!is.null(add_topic)) {
+        stopifnot(is.character(add_topic))
+        args <- c(args, "--add-topic", paste(add_topic, collapse = ","))
+    }
+
+    if (isTRUE(allow_forking))
+        args <- c(args, "--allow-forking")
+    else if (isFALSE(allow_forking))
+        args <- c(args, "--allow-forking=false")
+
+    if (isTRUE(allow_update_branch))
+        args <- c(args, "--allow-update-branch")
+    else if (isFALSE(allow_update_branch))
+        args <- c(args, "--allow-update-branch=false")
+
+    if (!is.null(default_branch)) {
+        assert_string(default_branch)
+        args <- c(args, "--default_branch", default_branch)
+    }
+
+    if (isTRUE(delete_branch_on_merge))
+        args <- c(args, "--delete-branch-on-merge")
+    else if (isFALSE(delete_branch_on_merge))
+        args <- c(args, "--delete-branch-on-merge=false")
+
+    if (!is.null(description)) {
+        assert_string(description)
+        args <- c(args, "--description", description)
+    }
+
+    if (isTRUE(enable_advanced_security))
+        args <- c(args, "--enable-advanced-security")
+    else if (isFALSE(enable_advanced_security))
+        args <- c(args, "--enable-advanced-security=false")
+
+    if (isTRUE(enable_discussions))
+        args <- c(args, "--enable-discussions")
+    else if (isFALSE(enable_discussions))
+        args <- c(args, "--enable-discussions=false")
+
+    if (isTRUE(enable_issues))
+        args <- c(args, "--enable-issues")
+    else if (isFALSE(enable_issues))
+        args <- c(args, "--enable-issues=false")
+
+    if (isTRUE(enable_merge_commit))
+        args <- c(args, "--enable-merge-commit")
+    else if (isFALSE(enable_merge_commit))
+        args <- c(args, "--enable-merge-commit=false")
+
+    if (isTRUE(enable_projects))
+        args <- c(args, "--enable-projects")
+    else if (isFALSE(enable_projects))
+        args <- c(args, "--enable-projects=false")
+
+    if (isTRUE(enable_rebase_merge))
+        args <- c(args, "--enable-rebase-merge")
+    else if (isFALSE(enable_rebase_merge))
+        args <- c(args, "--enable-rebase-merge=false")
+
+    if (isTRUE(enable_secret_scanning))
+        args <- c(args, "--enable-secret-scanning")
+    else if (isFALSE(enable_secret_scanning))
+        args <- c(args, "--enable-secret-scanning=false")
+
+    if (isTRUE(enable_secret_scanning_push_protection))
+        args <- c(args, "--enable-secret-scanning-push-protection")
+    else if (isFALSE(enable_secret_scanning_push_protection))
+        args <- c(args, "--enable-secret-scanning-push-protection=false")
+
+    if (isTRUE(enable_squash_merge))
+        args <- c(args, "--enable-squash-merge")
+    else if (isFALSE(enable_squash_merge))
+        args <- c(args, "--enable-squash-merge=false")
+
+    if (isTRUE(enable_wiki))
+        args <- c(args, "--enable-wiki")
+    else if (isFALSE(enable_wiki))
+        args <- c(args, "--enable-wiki=false")
+
+    if (!is.null(homepage)) {
+        assert_string(homepage)
+        args <- c(args, "--homepage", homepage)
+    }
+
+    if (!is.null(remove_topic)) {
+        stopifnot(is.character(remove_topic))
+        args <- c(args, "--remove-topic", paste(remove_topic, collapse = ","))
+    }
+
+    if (isTRUE(template))
+        args <- c(args, "--template")
+    else if (isFALSE(template))
+        args <- c(args, "--template=false")
+
+    if (!is.null(visibility)) {
+        assert_string(visibility)
+        stopifnot(visibility %in% c("public", "private", "internal"))
+        args <- c(args, "--visibility", visibility)
+    }
+
+    gh_system2(args)
+
+    invisible(NULL)
+}
