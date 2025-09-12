@@ -26,7 +26,14 @@ gh_cmd <- function() Sys.which("gh")
 
 gh_system2 <- function(args, ...) {
     cmd <- gh_cmd()
-    output <- system2(cmd, args, ..., stdout = TRUE)
+    output <- system2(cmd, args, ..., stdout = TRUE, stderr = TRUE) |> suppressWarnings()
+    status <- attr(output, "status")
+    if (status != 0L) {
+        msg <- c("`gh` command failed with status {sQuote(status)}",
+                 i = "The `gh` standard error is stored in the `stderr` attribute of the error condition",
+                 i = 'If last error can print via `cat(rlang::last_error()$stderr, sep = "\\n")`')
+        cli::cli_abort(msg, stderr = output)
+    }
     invisible(output)
 }
 
