@@ -1,0 +1,6 @@
+destination: "../../websites/R/ghcli/"
+url: "https://trevorldavis.com/R/ghcli"
+development:
+    mode: auto
+template:
+  bootstrap: 5
