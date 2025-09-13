@@ -8,5 +8,6 @@ New features
 * `gh_label_clone()` copies labels from another repo (#2)
 * `gh_label_create()` creates a label (#2)
 * `gh_label_delete()` deletes label(s) (#2)
+* `gh_label_edit()` updates a label (#2)
 * `gh_label_list()` lists label(s) (#2)
 * `gh_repo_edit()` edits repository settings (#6)
