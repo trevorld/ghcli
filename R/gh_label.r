@@ -44,6 +44,8 @@ gh_label_list <- function(..., repo = NULL) {
 #' `gh_label_clone()` copies labels from one repo to another.
 #'
 #' @inheritParams gh_browse
+#' @param source_repository A string of another repository in `[HOST/]OWNER/REPO` format.
+#' @param force If `TRUE` update any existing label(s).
 #' @return `NULL` invisibly
 #' @examples
 #' \dontrun{

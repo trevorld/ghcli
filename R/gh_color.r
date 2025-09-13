@@ -1,3 +1,4 @@
+#' @importFrom grDevices col2rgb rgb
 as_gh_color <- function(x) {
     x <- tolower(x)
     x <- ifelse(grepl("^[0-9a-f]{6}$", x), paste0("#", x), x)

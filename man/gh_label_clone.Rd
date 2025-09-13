@@ -7,7 +7,11 @@
 gh_label_clone(source_repository, ..., force = TRUE, repo = NULL)
 }
 \arguments{
+\item{source_repository}{A string of another repository in \verb{[HOST/]OWNER/REPO} format.}
+
 \item{...}{Ignored.}
+
+\item{force}{If \code{TRUE} update any existing label(s).}
 
 \item{repo}{A string of another repository in \verb{[HOST/]OWNER/REPO} format.}
 }

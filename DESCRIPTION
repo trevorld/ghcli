@@ -1,6 +1,6 @@
 Package: ghcli
 Title: 'GitHub' Command-line Interface Wrappers
-Version: 0.0.1-2
+Version: 0.0.1-3
 Authors@R: c(person("Trevor L.", "Davis", role = c("aut", "cre"),
                     email = "trevor.l.davis@gmail.com",
                     comment = c(ORCID = "0000-0001-6341-4639")))
@@ -11,10 +11,10 @@ Depends:
     R (>= 4.1)
 Imports:
     cli,
+    grDevices,
     jsonlite,
     pillar,
-    tibble,
-    vctrs
+    tibble
 SystemRequirements: gh
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
