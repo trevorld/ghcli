@@ -94,7 +94,7 @@ gh_label_create <- function(name,
                             repo = NULL) {
     chkDots(...)
     assert_string(name)
-    args <- c("label", "create", name)
+    args <- c("label", "create", shQuote(name))
     if (!is.null(color)) {
         assert_string(color)
         color <- as_gh_color(color) |> substring(2L, 7L)
@@ -138,8 +138,53 @@ gh_label_delete <- function(name, ..., repo = NULL) {
 }
 
 gh_label_delete_helper <- function(name, repo = NULL) {
-    args <- c("label", "delete", name, "--yes")
+    args <- c("label", "delete", shQuote(name), "--yes")
     if (!is.null(repo)) {
+        args <- c(args, "--repo", repo)
+    }
+    output <- gh_system2(args)
+    invisible(NULL)
+}
+
+#' Update label in a repository
+#'
+#' `gh_label_edit()` updates a label in a repository.
+#'
+#' @inheritParams gh_browse
+#' @param name New name of the label.
+#' @param color Color of label.
+#' @param description Description of label.
+#' @return `NULL` invisibly
+#' @examples
+#' \dontrun{
+#'   # requires `gh` installed and authenticated and working directory in Github repository
+#'   gh_label_edit("question", color = "orange")
+#' }
+#' @export
+gh_label_edit <- function(what,
+                            ...,
+                            color = NULL,
+                            description = NULL,
+                            name = NULL,
+                            repo = NULL) {
+    chkDots(...)
+    assert_string(what)
+    args <- c("label", "edit", shQuote(what))
+    if (!is.null(color)) {
+        assert_string(color)
+        color <- as_gh_color(color) |> substring(2L, 7L)
+        args <- c(args, "--color", color)
+    }
+    if (!is.null(description)) {
+        assert_string(description)
+        args <- c(args, "--description", shQuote(description))
+    }
+    if (!is.null(name)) {
+        assert_string(name)
+        args <- c(args, "--name", shQuote(name))
+    }
+    if (!is.null(repo)) {
+        repo <- assert_string(repo)
         args <- c(args, "--repo", repo)
     }
     output <- gh_system2(args)
