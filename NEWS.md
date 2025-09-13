@@ -10,4 +10,5 @@ New features
 * `gh_label_delete()` deletes label(s) (#2)
 * `gh_label_edit()` updates a label (#2)
 * `gh_label_list()` lists label(s) (#2)
+* `gh_repo_delete()` deletes GitHub repositories (#6)
 * `gh_repo_edit()` edits repository settings (#6)

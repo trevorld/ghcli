@@ -1,3 +1,29 @@
+#' Delete a GitHub repository
+#'
+#' `gh_repo_delete()` deletes a repository.
+#'
+#' @param repository Character vector of repositories in `[HOST/]OWNER/REPO` format.
+#' @seealso <https://cli.github.com/manual/gh_repo_delete>
+#' @examples
+#' \dontrun{
+#'   # requires `gh` installed and authenticated and working directory in Github repository
+#'   gh_repo_delete("trevorld/repo_that_does_not_exist")
+#' }
+#' @return `NULL` invisibly.
+#' @seealso <https://cli.github.com/manual/gh_label_delete>
+#' @export
+gh_repo_delete <- function(repository) {
+    stopifnot(is.character(repository))
+    l <- lapply(repository, gh_repo_delete_helper)
+    invisible(NULL)
+}
+
+gh_repo_delete_helper <- function(repository) {
+    args <- c("repo", "delete", "--yes", shQuote(repository))
+    gh_system2(args)
+    invisible(NULL)
+}
+
 #' Edit repository settings.
 #'
 #' `gh_repo_edit()` edits repository settings.
@@ -63,7 +89,7 @@ gh_repo_edit <- function(repository = NULL,
     if (is.null(repository))
         args <- c("repo", "edit")
     else
-        args <- c("repo", "edit", repository)
+        args <- c("repo", "edit", shQuote(repository))
 
     accept_visibility_change_consequences <- !is.null(visibility)
     if (isTRUE(accept_visibility_change_consequences) && gh_version() >= "2.61")

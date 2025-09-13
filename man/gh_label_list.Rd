@@ -29,3 +29,6 @@ or set \code{options(cli.ansi = FALSE)}.
   gh_label_list()
 }
 }
+\seealso{
+\url{https://cli.github.com/manual/gh_label_list}
+}
