@@ -25,3 +25,6 @@ gh_label_delete(name, ..., repo = NULL)
   gh_label_delete("wontfix") # delete `wontfix` label
 }
 }
+\seealso{
+\url{https://cli.github.com/manual/gh_label_delete}
+}

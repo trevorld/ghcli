@@ -38,3 +38,6 @@ gh_label_create(
   gh_label_create("upkeep", color = "grey", description = "Package maintenance")
 }
 }
+\seealso{
+\url{https://cli.github.com/manual/gh_label_create}
+}

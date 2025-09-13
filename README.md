@@ -14,6 +14,8 @@
 
 This package provides functions that wrap some of the [Github command-line interface `gh`](https://cli.github.com/) commands.
 
+**Warning:** the functions in this package do **not** warn or request confirmation.  Double check what you've typed before using functions like `gh_repo_delete("username/repo")` or `gh_repo_edit(visibility = "public")` or maybe use the Github website for such operations (which usually demands confirmation and typing in the repository's name).
+
 ## <a name="installation">Installation</a>
 
 ```r

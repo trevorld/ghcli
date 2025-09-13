@@ -13,6 +13,7 @@
 #'   # requires `gh` installed and authenticated and working directory in Github repository
 #'   gh_label_list()
 #' }
+#' @seealso <https://cli.github.com/manual/gh_label_list>
 #' @export
 gh_label_list <- function(..., repo = NULL) {
     chkDots(...)
@@ -52,6 +53,7 @@ gh_label_list <- function(..., repo = NULL) {
 #'   # requires `gh` installed and authenticated and working directory in Github repository
 #'   gh_label_clone("r-lib/cli") # copy labels from {ghcli} to this repo
 #' }
+#' @seealso <https://cli.github.com/manual/gh_label_clone>
 #' @export
 gh_label_clone <- function(source_repository, ..., force = TRUE, repo = NULL) {
     chkDots(...)
@@ -85,6 +87,7 @@ gh_label_clone <- function(source_repository, ..., force = TRUE, repo = NULL) {
 #'   # requires `gh` installed and authenticated and working directory in Github repository
 #'   gh_label_create("upkeep", color = "grey", description = "Package maintenance")
 #' }
+#' @seealso <https://cli.github.com/manual/gh_label_create>
 #' @export
 gh_label_create <- function(name,
                             ...,
@@ -127,6 +130,7 @@ gh_label_create <- function(name,
 #'   # requires `gh` installed and authenticated and working directory in Github repository
 #'   gh_label_delete("wontfix") # delete `wontfix` label
 #' }
+#' @seealso <https://cli.github.com/manual/gh_label_delete>
 #' @export
 gh_label_delete <- function(name, ..., repo = NULL) {
     chkDots(...)
@@ -160,6 +164,7 @@ gh_label_delete_helper <- function(name, repo = NULL) {
 #'   # requires `gh` installed and authenticated and working directory in Github repository
 #'   gh_label_edit("question", color = "orange")
 #' }
+#' @seealso <https://cli.github.com/manual/gh_label_edit>
 #' @export
 gh_label_edit <- function(what,
                             ...,

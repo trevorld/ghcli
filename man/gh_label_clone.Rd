@@ -27,3 +27,6 @@ gh_label_clone(source_repository, ..., force = TRUE, repo = NULL)
   gh_label_clone("r-lib/cli") # copy labels from {ghcli} to this repo
 }
 }
+\seealso{
+\url{https://cli.github.com/manual/gh_label_clone}
+}

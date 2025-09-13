@@ -49,3 +49,6 @@ gh_label_edit(
   gh_label_edit("question", color = "orange")
 }
 }
+\seealso{
+\url{https://cli.github.com/manual/gh_label_edit}
+}
