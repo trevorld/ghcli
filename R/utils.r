@@ -1,9 +1,3 @@
-assert_gh <- function() {
-    if (!has_gh())
-        cli::cli_abort("Command `gh` not found")
-    invisible(NULL)
-}
-
 assert_string <- function(x) {
     if (!is.character(x) || length(x) != 1L) {
         nm <- deparse(substitute(x))
@@ -20,15 +14,17 @@ assert_min_version <- function(min_version) {
     }
 }
 
-has_gh <- function() nzchar(gh_cmd())
+has_cmd <- function(cmd) nzchar(cmd)
 
 gh_cmd <- function() Sys.which("gh")
 
 gh_system2 <- function(args, ...) {
     cmd <- gh_cmd()
+    if (!has_cmd(cmd))
+        cli::cli_abort("`gh` command not found on PATH")
     output <- system2(cmd, args, ..., stdout = TRUE, stderr = TRUE) |> suppressWarnings()
     status <- attr(output, "status")
-    if (status != 0L) {
+    if (!is.null(status) && status != 0L) {
         msg <- c("`gh` command failed with status {sQuote(status)}",
                  i = "The `gh` standard error is stored in the `stderr` attribute of the error condition",
                  i = 'If last error can print via `cat(rlang::last_error()$stderr, sep = "\\n")`')

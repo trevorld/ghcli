@@ -96,7 +96,7 @@ gh_repo_edit <- function(repository = NULL,
 
     if (!is.null(description)) {
         assert_string(description)
-        args <- c(args, "--description", description)
+        args <- c(args, "--description", shQuote(description))
     }
 
     if (isTRUE(enable_advanced_security))

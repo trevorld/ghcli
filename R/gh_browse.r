@@ -30,7 +30,6 @@
 #' @export
 gh_browse <- function(what = NULL, ..., branch = NULL, repo = NULL) {
     chkDots(...)
-    assert_gh()
     args <- "browse"
     if (!is.null(what)) {
         if (is.numeric(what))
