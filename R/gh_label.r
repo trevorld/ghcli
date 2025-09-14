@@ -17,12 +17,12 @@
 #' @export
 gh_label_list <- function(..., repo = NULL) {
     chkDots(...)
-    args <- c("label", "list", "--limit", "1000", "--json", "name,color,description")
-    if (!is.null(repo)) {
-        repo <- assert_string(repo)
-        args <- c(args, "--repo", repo)
-    }
-
+    args <- gh_args(
+        c("label", "list",
+          "--limit", "1000",
+          "--json", "name,color,description"),
+        repo
+    )
     output <- gh_system2(args)
     if (length(output) == 0L) {
         df <- tibble::as_tibble(
@@ -59,14 +59,9 @@ gh_label_clone <- function(source_repository, ..., force = TRUE, repo = NULL) {
     chkDots(...)
     assert_string(source_repository)
 
-    args <- c("label", "clone", source_repository)
-
+    args <- gh_args(c("label", "clone", source_repository), repo)
     if (isTRUE(force)) {
         args <- c(args, "--force")
-    }
-    if (!is.null(repo)) {
-        repo <- assert_string(repo)
-        args <- c(args, "--repo", repo)
     }
     output <- gh_system2(args)
     invisible(NULL)
@@ -97,7 +92,7 @@ gh_label_create <- function(name,
                             repo = NULL) {
     chkDots(...)
     assert_string(name)
-    args <- c("label", "create", shQuote(name))
+    args <- gh_args(c("label", "create", shQuote(name)), repo)
     if (!is.null(color)) {
         assert_string(color)
         color <- as_gh_color(color) |> substring(2L, 7L)
@@ -109,10 +104,6 @@ gh_label_create <- function(name,
     }
     if (isTRUE(force)) {
         args <- c(args, "--force")
-    }
-    if (!is.null(repo)) {
-        repo <- assert_string(repo)
-        args <- c(args, "--repo", repo)
     }
     output <- gh_system2(args)
     invisible(NULL)
@@ -135,17 +126,12 @@ gh_label_create <- function(name,
 gh_label_delete <- function(name, ..., repo = NULL) {
     chkDots(...)
     name <- as.character(name)
-    if (!is.null(repo))
-        repo <- assert_string(repo)
     l <- lapply(name, gh_label_delete_helper)
     invisible(NULL)
 }
 
 gh_label_delete_helper <- function(name, repo = NULL) {
-    args <- c("label", "delete", shQuote(name), "--yes")
-    if (!is.null(repo)) {
-        args <- c(args, "--repo", repo)
-    }
+    args <- gh_args(c("label", "delete", shQuote(name), "--yes"), repo)
     output <- gh_system2(args)
     invisible(NULL)
 }
@@ -174,7 +160,7 @@ gh_label_edit <- function(what,
                             repo = NULL) {
     chkDots(...)
     assert_string(what)
-    args <- c("label", "edit", shQuote(what))
+    args <- gh_args(c("label", "edit", shQuote(what)), repo)
     if (!is.null(color)) {
         assert_string(color)
         color <- as_gh_color(color) |> substring(2L, 7L)
@@ -187,10 +173,6 @@ gh_label_edit <- function(what,
     if (!is.null(name)) {
         assert_string(name)
         args <- c(args, "--name", shQuote(name))
-    }
-    if (!is.null(repo)) {
-        repo <- assert_string(repo)
-        args <- c(args, "--repo", repo)
     }
     output <- gh_system2(args)
     invisible(NULL)
