@@ -38,3 +38,11 @@ gh_version <- function() {
     version <- gsub("gh version ([0-9.]+) .*", "\\1", output[[1L]])
     numeric_version(version)
 }
+
+gh_args <- function(args, repo = NULL) {
+    if (!is.null(repo)) {
+        repo <- assert_string(repo)
+        args <- c(args, "--repo", shQuote(repo))
+    }
+    args
+}

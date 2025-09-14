@@ -1,3 +1,26 @@
+#' Archive a GitHub repository
+#'
+#' `gh_repo_archive()` archives a GitHub repository.
+#'
+#' @param repository Repository to archive.  If `NULL` archive current repository.
+#' @return `NULL` invisibly.
+#' @examples
+#' \dontrun{
+#'   # requires `gh` installed and authenticated and working directory in Github repository
+#'   gh_archive() # archive current repo
+#' }
+#' @seealso <https://cli.github.com/manual/gh_repo_archive>
+#' @export
+gh_repo_archive <- function(repository = NULL) {
+    args <- c("repo", "archive", "--yes")
+    if (!is.null(repository)) {
+        repository <- assert_string(repository)
+        args <- c(args, shQuote(repository))
+    }
+    gh_system2(args)
+    invisible(NULL)
+}
+
 #' Delete a GitHub repository
 #'
 #' `gh_repo_delete()` deletes a repository.
@@ -197,7 +220,6 @@ gh_repo_edit <- function(repository = NULL,
     }
 
     gh_system2(args)
-
     invisible(NULL)
 }
 
@@ -218,14 +240,30 @@ gh_repo_edit <- function(repository = NULL,
 gh_repo_rename <- function(new_name, ..., repo = NULL) {
     chkDots(...)
     assert_string(new_name)
-
-    args <- c("repo", "rename", shQuote(new_name))
-    if (!is.null(repo)) {
-        repo <- assert_string(repo)
-        args <- c(args, "--repo", repo)
-    }
-
+    args <- gh_args(c("repo", "rename", shQuote(new_name)), repo)
     gh_system2(args)
+    invisible(NULL)
+}
 
+#' Unarchive a GitHub repository
+#'
+#' `gh_repo_unarchive()` unarchives a GitHub repository.
+#'
+#' @param repository Repository to unarchive.  If `NULL` archive current repository.
+#' @return `NULL` invisibly.
+#' @examples
+#' \dontrun{
+#'   # requires `gh` installed and authenticated and working directory in Github repository
+#'   gh_unarchive() # unarchive current repo (if archived)
+#' }
+#' @seealso <https://cli.github.com/manual/gh_repo_unarchive>
+#' @export
+gh_repo_unarchive <- function(repository = NULL) {
+    args <- c("repo", "unarchive", "--yes")
+    if (!is.null(repository)) {
+        repository <- assert_string(repository)
+        args <- c(args, shQuote(repository))
+    }
+    gh_system2(args)
     invisible(NULL)
 }
