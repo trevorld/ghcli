@@ -200,3 +200,32 @@ gh_repo_edit <- function(repository = NULL,
 
     invisible(NULL)
 }
+
+#' Rename a GitHub repository
+#'
+#' `gh_repo_rename()` renames a GitHub repository.
+#'
+#' @param new_name New repository name.
+#' @inheritParams gh_browse
+#' @return `NULL` invisibly.
+#' @examples
+#' \dontrun{
+#'   # requires `gh` installed and authenticated and working directory in Github repository
+#'   gh_rename("new_name") # rename repo "new_name"
+#' }
+#' @seealso <https://cli.github.com/manual/gh_repo_rename>
+#' @export
+gh_repo_rename <- function(new_name, ..., repo = NULL) {
+    chkDots(...)
+    assert_string(new_name)
+
+    args <- c("repo", "rename", shQuote(new_name))
+    if (!is.null(repo)) {
+        repo <- assert_string(repo)
+        args <- c(args, "--repo", repo)
+    }
+
+    gh_system2(args)
+
+    invisible(NULL)
+}
