@@ -28,12 +28,21 @@ set an appropriate `GITHUB_TOKEN` environmental variable.
 
 ## <a name="examples">Examples</a>
 
+Example of disabling merge commit merges (in favor of "squash" and "rebase" merges) and enabling
+the "delete branch on merge" features in all repositories the user can administer.
+
 ```r
 # requires `gh` installed and authenticated and working directory in Github repository
+library("dplyr")
 library("ghcli")
-gh_repo_edit(visibility = "public") # make a private repo public
-gh_repo_edit(delete_branch_on_merge = TRUE) # enable delete head branch when PRs are merged
-gh_repo_edit(enable_merge_commit = FALSE) # disable merging PRs with merge commits
+library("purrr")
+fields <- c("nameWithOwner", "deleteBranchOnMerge", "mergeCommitAllowed", "viewerCanAdminister")
+df_repo <- gh_repo_list(fields = fields) |>
+               filter(mergeCommitAllowed | !deleteBranchOnMerge, viewerCanAdminister)
+df_edit <- data.frame(repository = df_repo$nameWithOwner, 
+                      delete_branch_on_merge = TRUE,
+                      enable_merge_commit = FALSE)
+l <- purrr::pmap(df_edit, gh_repo_edit)
 ```
 
 ## <a name="links">Related Links</a>

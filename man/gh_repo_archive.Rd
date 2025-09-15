@@ -18,7 +18,7 @@ gh_repo_archive(repository = NULL)
 \examples{
 \dontrun{
   # requires `gh` installed and authenticated and working directory in Github repository
-  gh_archive() # archive current repo
+  gh_repo_archive() # archive current repo
 }
 }
 \seealso{

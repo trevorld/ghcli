@@ -22,7 +22,7 @@ gh_repo_rename(new_name, ..., repo = NULL)
 \examples{
 \dontrun{
   # requires `gh` installed and authenticated and working directory in Github repository
-  gh_rename("new_name") # rename repo "new_name"
+  gh_repo_rename("new_name") # rename repo "new_name"
 }
 }
 \seealso{

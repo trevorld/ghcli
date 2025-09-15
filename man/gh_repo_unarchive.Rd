@@ -18,7 +18,7 @@ gh_repo_unarchive(repository = NULL)
 \examples{
 \dontrun{
   # requires `gh` installed and authenticated and working directory in Github repository
-  gh_unarchive() # unarchive current repo (if archived)
+  gh_repo_unarchive() # unarchive current repo (if archived)
 }
 }
 \seealso{
