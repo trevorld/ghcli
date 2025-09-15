@@ -73,7 +73,7 @@ Default is the repository the working directory is in.}
 
 \item{template}{Either \code{NULL}, \code{TRUE}, or \code{FALSE}.}
 
-\item{visibility}{Either \code{NULL}, "public", "private", "internal".}
+\item{visibility}{Either \code{NULL}, \code{"public"}, \code{"private"}, \code{"internal"}.}
 }
 \value{
 \code{NULL} invisibly.

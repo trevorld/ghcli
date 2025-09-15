@@ -15,5 +15,6 @@ Functions for querying/editing GitHub repositories (repos):
 * `gh_repo_archive()` archives repo (#5)
 * `gh_repo_delete()` deletes repo(s) (#5)
 * `gh_repo_edit()` edits repo settings (#6)
+* `gh_repo_list()` lists repos (#5)
 * `gh_repo_rename()` renames repo (#5)
 * `gh_repo_unarchive()` unarchives repo (#5)

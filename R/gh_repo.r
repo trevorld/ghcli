@@ -7,7 +7,7 @@
 #' @examples
 #' \dontrun{
 #'   # requires `gh` installed and authenticated and working directory in Github repository
-#'   gh_archive() # archive current repo
+#'   gh_repo_archive() # archive current repo
 #' }
 #' @seealso <https://cli.github.com/manual/gh_repo_archive>
 #' @export
@@ -73,7 +73,7 @@ gh_repo_delete_helper <- function(repository) {
 #' @param homepage A string (of an URL).
 #' @param remove_topic Either `NULL` or a character vector.
 #' @param template Either `NULL`, `TRUE`, or `FALSE`.
-#' @param visibility Either `NULL`, "public", "private", "internal".
+#' @param visibility Either `NULL`, `"public"`, `"private"`, `"internal"`.
 #' @param ... Ignored
 #' @seealso <https://cli.github.com/manual/gh_repo_edit>
 #' @examples
@@ -223,6 +223,90 @@ gh_repo_edit <- function(repository = NULL,
     invisible(NULL)
 }
 
+#' List GitHub repositories
+#'
+#' `gh_repo_list()` lists GitHub repositories
+#'
+#' @param ... Ignored
+#' @param archived Show only archived repositories
+#' @param fields Data fields to include.  See <https://cli.github.com/manual/gh_repo_list>.
+#' @param fork Show only forks
+#' @param language Filter by primary coding language
+#' @param limit Maximum number of repositories to list
+#' @param omit_archived Omit archived repositories
+#' @param omit_fork Omit forks
+#' @param topic Filter by topic
+#' @param visibility Filter by repository visibility.  Either `NULL`, `"public"`, `"private"`, `"internal"`
+#' @examples
+#' \dontrun{
+#'   # requires `gh` installed and authenticated and working directory in Github repository
+#'   df <- gh_repo_list("new_name") # rename repo "new_name"
+#' }
+#' @seealso <https://cli.github.com/manual/gh_repo_list>
+#' @export
+gh_repo_list <- function(...,
+                         archived = FALSE,
+                         fork = FALSE,
+                         language = NULL,
+                         limit = 1000L,
+                         fields = c("nameWithOwner", "visibility", "stargazerCount", "description"),
+                         omit_fork = FALSE,
+                         omit_archived = FALSE,
+                         topic = NULL,
+                         visibility = NULL) {
+    stopifnot(!archived || !omit_archived, !fork || !omit_fork)
+    chkDots(...)
+    if ("visibility" %in% fields)
+        assert_min_version("2.28.0")
+    args <- gh_args(
+        c("repo", "list",
+          "--limit", as.character(as.integer(limit)),
+          "--json", paste(fields, collapse = ","))
+    )
+    if (isTRUE(archived)) args <- c(args, "--archived")
+    if (isTRUE(fork)) args <- c(args, "--fork")
+    if (isTRUE(omit_archived)) args <- c(args, "--no-archived")
+    if (isTRUE(omit_fork)) args <- c(args, "--source")
+    if (!is.null(language)) {
+        assert_string(language)
+        args <- c(args, "--language", language)
+    }
+    if (!is.null(topic)) {
+        stopifnot(is.character(topic))
+        args <- c(args, "--topic", paste(topic, collapse = ","))
+    }
+    if (!is.null(visibility)) {
+        assert_string(visibility)
+        stopifnot(visibility %in% c("public", "private", "internal"))
+        args <- c(args, "--visibility", visibility)
+    }
+    output <- gh_system2(args)
+    if (length(output) == 0L) {
+        df <- tibble::as_tibble()
+        for (field in fields) {
+            if (grepl("^is", field)) {
+                df[[field]] <- logical(0L)
+            } else if (grepl("^has", field) || grepl("^viewerCan") || grepl("^viewerHas")) {
+                df[[field]] <- logical(0L)
+            } else if (grepl("Count$", field)) {
+                df[[field]] <- integer(0L)
+            } else {
+                df[[field]] <- character(0L)
+            }
+        }
+    } else {
+        df <- jsonlite::fromJSON(output)
+        df <- df[, fields]
+        df <- tibble::as_tibble(df)
+    }
+    for (field in fields) {
+        if (grepl("At$", field)) {
+            df[[field]] <- as.POSIXct(df[[field]], format="%Y-%m-%dT%H:%M:%SZ", tz="UTC")
+        }
+    }
+    df
+}
+
 #' Rename a GitHub repository
 #'
 #' `gh_repo_rename()` renames a GitHub repository.
@@ -233,7 +317,7 @@ gh_repo_edit <- function(repository = NULL,
 #' @examples
 #' \dontrun{
 #'   # requires `gh` installed and authenticated and working directory in Github repository
-#'   gh_rename("new_name") # rename repo "new_name"
+#'   gh_repo_rename("new_name") # rename repo "new_name"
 #' }
 #' @seealso <https://cli.github.com/manual/gh_repo_rename>
 #' @export
@@ -254,7 +338,7 @@ gh_repo_rename <- function(new_name, ..., repo = NULL) {
 #' @examples
 #' \dontrun{
 #'   # requires `gh` installed and authenticated and working directory in Github repository
-#'   gh_unarchive() # unarchive current repo (if archived)
+#'   gh_repo_unarchive() # unarchive current repo (if archived)
 #' }
 #' @seealso <https://cli.github.com/manual/gh_repo_unarchive>
 #' @export
