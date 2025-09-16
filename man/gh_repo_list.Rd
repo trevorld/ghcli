@@ -5,6 +5,7 @@
 \title{List GitHub repositories}
 \usage{
 gh_repo_list(
+  owner = NULL,
   ...,
   archived = FALSE,
   fork = FALSE,
@@ -18,6 +19,9 @@ gh_repo_list(
 )
 }
 \arguments{
+\item{owner}{Owner/organization of repositories.
+If \code{NULL} it defaults to the name of the authenticating user.}
+
 \item{...}{Ignored}
 
 \item{archived}{Show only archived repositories}

@@ -21,6 +21,54 @@ gh_repo_archive <- function(repository = NULL) {
     invisible(NULL)
 }
 
+#' Create a GitHub repository
+#'
+#' `gh_repo_create()` creates a GitHub repository.
+#'
+#' @param repository Name of repository in `[OWNER/]REPO` format.  `OWNER` defaults to name of authenticating user.
+#' @param visibility Either `"public"`, `"private"`, `"internal"`
+#' @inheritParams gh_repo_edit
+#' @return `NULL` invisibly.
+#' @examples
+#' \dontrun{
+#'   # requires `gh` installed and authenticated and working directory in Github repository
+#'   gh_repo_create("newrepo", "private", description = "A new GitHub repository")
+#' }
+#' @seealso <https://cli.github.com/manual/gh_repo_create>
+#' @export
+gh_repo_create <- function(repository,
+                           visibility = "private",
+                           ...,
+                           description = NULL,
+                           enable_issues = TRUE,
+                           enable_wiki = FALSE,
+                           homepage = NULL) {
+    chkDots(...)
+    assert_string(repository)
+    stopifnot(visibility %in% c("public", "private", "internal"))
+
+    args <- c("repo", "create", shQuote(repository), paste0("--", visibility))
+
+    if (!is.null(description)) {
+        assert_string(description)
+        args <- c(args, "--description", shQuote(description))
+    }
+
+    if (isFALSE(enable_issues))
+        args <- c(args, "--disable-issues")
+
+    if (isFALSE(enable_wiki))
+        args <- c(args, "--disable-wiki")
+
+    if (!is.null(homepage)) {
+        assert_string(homepage)
+        args <- c(args, "--homepage", homepage)
+    }
+
+    gh_system2(args)
+    invisible(NULL)
+}
+
 #' Delete a GitHub repository
 #'
 #' `gh_repo_delete()` deletes a repository.
@@ -227,6 +275,8 @@ gh_repo_edit <- function(repository = NULL,
 #'
 #' `gh_repo_list()` lists GitHub repositories
 #'
+#' @param owner Owner/organization of repositories.
+#'              If `NULL` it defaults to the name of the authenticating user.
 #' @param ... Ignored
 #' @param archived Show only archived repositories
 #' @param fields Data fields to include.  See <https://cli.github.com/manual/gh_repo_list>.
@@ -244,7 +294,7 @@ gh_repo_edit <- function(repository = NULL,
 #' }
 #' @seealso <https://cli.github.com/manual/gh_repo_list>
 #' @export
-gh_repo_list <- function(...,
+gh_repo_list <- function(owner = NULL, ...,
                          archived = FALSE,
                          fork = FALSE,
                          language = NULL,
@@ -255,11 +305,12 @@ gh_repo_list <- function(...,
                          topic = NULL,
                          visibility = NULL) {
     stopifnot(!archived || !omit_archived, !fork || !omit_fork)
+    if(!is.null(owner)) assert_string(owner)
     chkDots(...)
     if ("visibility" %in% fields)
         assert_min_version("2.28.0")
     args <- gh_args(
-        c("repo", "list",
+        c("repo", "list", owner,
           "--limit", as.character(as.integer(limit)),
           "--json", paste(fields, collapse = ","))
     )
