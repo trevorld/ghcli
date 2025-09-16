@@ -39,7 +39,7 @@ library("purrr")
 fields <- c("nameWithOwner", "deleteBranchOnMerge", "mergeCommitAllowed", "viewerCanAdminister")
 df_repo <- gh_repo_list(fields = fields) |>
                filter(mergeCommitAllowed | !deleteBranchOnMerge, viewerCanAdminister)
-df_edit <- data.frame(repository = df_repo$nameWithOwner, 
+df_edit <- data.frame(repository = df_repo$nameWithOwner,
                       delete_branch_on_merge = TRUE,
                       enable_merge_commit = FALSE)
 l <- purrr::pmap(df_edit, gh_repo_edit)

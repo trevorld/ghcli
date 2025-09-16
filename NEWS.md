@@ -13,6 +13,7 @@ Functions for querying/editing GitHub repositories (repos):
 * `gh_label_edit()` updates a (issue) label (#2)
 * `gh_label_list()` lists (issue) label(s) (#2)
 * `gh_repo_archive()` archives repo (#5)
+* `gh_repo_create()` creates repo (#5)
 * `gh_repo_delete()` deletes repo(s) (#5)
 * `gh_repo_edit()` edits repo settings (#6)
 * `gh_repo_list()` lists repos (#5)
