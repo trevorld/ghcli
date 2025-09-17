@@ -7,6 +7,7 @@ New features
 Functions for querying/editing GitHub repositories (repos):
 
 * `gh_browse()` opens up repo page in a web browser (#4)
+* `gh_issue_create()` creates issue (#3)
 * `gh_label_clone()` copies labels from another repo (#2)
 * `gh_label_create()` creates a (issue) label (#2)
 * `gh_label_delete()` deletes (issue) label(s) (#2)
