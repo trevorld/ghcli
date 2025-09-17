@@ -402,3 +402,39 @@ gh_repo_unarchive <- function(repository = NULL) {
     gh_system2(args)
     invisible(NULL)
 }
+
+#' View details of a GitHub repository
+#'
+#' `gh_repo_view()` gets details of a GitHub repository
+#'
+#' @param repository Name of repository in `[OWNER/]REPO` format.  `OWNER` defaults to name of authenticating user.
+#' @param fields Data fields to include.  See <https://cli.github.com/manual/gh_repo_view>.
+#' @inheritParams gh_repo_list
+#' @return `NULL` invisibly.
+#' @examples
+#' \dontrun{
+#'   # requires `gh` installed and authenticated and working directory in Github repository
+#'   gh_repo_create("newrepo", "private", description = "A new GitHub repository")
+#' }
+#' @seealso <https://cli.github.com/manual/gh_repo_view>
+#' @export
+gh_repo_view <- function(repository = NULL,
+                         ...,
+                         fields = c("nameWithOwner", "deleteBranchOnMerge", "description", "hasDiscussionsEnabled", "hasIssuesEnabled", "hasProjectsEnabled", "hasWikiEnabled", "homepageUrl", "isEmpty", "isFork", "mergeCommitAllowed", "visibility")) {
+    chkDots(...)
+    if (!is.null(repository))
+        assert_string(repository)
+
+    args <- c("repo", "view", shQuote(repository),
+              "--json", paste(fields, collapse = ","))
+
+    output <- gh_system2(args)
+    l <- jsonlite::fromJSON(output)
+    l <- l[fields]
+    for (field in fields) {
+        if (grepl("At$", field)) {
+            l[[field]] <- as.POSIXct(l[[field]], format="%Y-%m-%dT%H:%M:%SZ", tz="UTC")
+        }
+    }
+    l
+}
