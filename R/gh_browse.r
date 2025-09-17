@@ -46,7 +46,7 @@ gh_browse <- function(what = NULL, ..., branch = NULL, repo = NULL) {
     args <- gh_args(c("browse", what), repo)
     if (!is.null(branch)) {
         branch <- assert_string(branch)
-        args <- c(args, "--branch", branch)
+        args <- c(args, "--branch", shQuote(branch))
     }
     gh_system2(args)
     invisible(NULL)
