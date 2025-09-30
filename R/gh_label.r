@@ -110,7 +110,7 @@ gh_label_create <- function(name,
 }
 
 #' Delete label(s) from a repository
-#' 
+#'
 #' `gh_label_delete()` deletes label(s) from a repository.
 #'
 #' @inheritParams gh_browse
@@ -141,6 +141,7 @@ gh_label_delete_helper <- function(name, repo = NULL) {
 #' `gh_label_edit()` updates a label in a repository.
 #'
 #' @inheritParams gh_browse
+#' @param to_edit Name of the label to edit.
 #' @param name New name of the label.
 #' @param color Color of label.
 #' @param description Description of label.
@@ -152,15 +153,15 @@ gh_label_delete_helper <- function(name, repo = NULL) {
 #' }
 #' @seealso <https://cli.github.com/manual/gh_label_edit>
 #' @export
-gh_label_edit <- function(what,
-                            ...,
-                            color = NULL,
-                            description = NULL,
-                            name = NULL,
-                            repo = NULL) {
+gh_label_edit <- function(to_edit,
+                          ...,
+                          color = NULL,
+                          description = NULL,
+                          name = NULL,
+                          repo = NULL) {
     chkDots(...)
-    assert_string(what)
-    args <- gh_args(c("label", "edit", shQuote(what)), repo)
+    assert_string(to_edit)
+    args <- gh_args(c("label", "edit", shQuote(to_edit)), repo)
     if (!is.null(color)) {
         assert_string(color)
         color <- as_gh_color(color) |> substring(2L, 7L)

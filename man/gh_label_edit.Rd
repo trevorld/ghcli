@@ -5,7 +5,7 @@
 \title{Update label in a repository}
 \usage{
 gh_label_edit(
-  what,
+  to_edit,
   ...,
   color = NULL,
   description = NULL,
@@ -14,18 +14,7 @@ gh_label_edit(
 )
 }
 \arguments{
-\item{what}{A character string, integer, or \code{NULL}
-\itemize{
-\item \code{NULL} opens up repository home page
-\item "commit" opens up last commit
-\item "projects" opens repository projects
-\item "settings" opens repository settings
-\item "wiki" opens repository wiki
-\item INT or "INT" opens issue or pull request INT
-\item "PATH" opens file page of file with path PATH
-\item "PATH:INT" opens file page of file with path PATH at line INT
-\item "SHA" opens commit page of commit with sha SHA
-}}
+\item{to_edit}{Name of the label to edit.}
 
 \item{...}{Ignored.}
 
