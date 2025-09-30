@@ -414,7 +414,7 @@ gh_repo_unarchive <- function(repository = NULL) {
 #' @examples
 #' \dontrun{
 #'   # requires `gh` installed and authenticated and working directory in Github repository
-#'   gh_repo_create("newrepo", "private", description = "A new GitHub repository")
+#'   gh_repo_view()
 #' }
 #' @seealso <https://cli.github.com/manual/gh_repo_view>
 #' @export
