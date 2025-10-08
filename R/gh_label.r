@@ -24,14 +24,14 @@ gh_label_list <- function(..., repo = NULL) {
         repo
     )
     output <- gh_system2(args)
-    if (length(output) == 0L) {
-        df <- tibble::as_tibble(
+	df <- jsonlite::fromJSON(output)
+    if (length(df) == 0L) {
+        df <- tibble::tibble(
             name = character(0L),
             color = character(0L),
             description = character(0L)
         )
     } else {
-        df <- jsonlite::fromJSON(output)
         df$color <- paste0("#", df$color)
         df <- df[, c("name", "color", "description")]
         df <- tibble::as_tibble(df)

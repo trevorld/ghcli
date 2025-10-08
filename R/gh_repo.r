@@ -332,8 +332,9 @@ gh_repo_list <- function(owner = NULL, ...,
         args <- c(args, "--visibility", visibility)
     }
     output <- gh_system2(args)
-    if (length(output) == 0L) {
-        df <- tibble::as_tibble()
+	df <- jsonlite::fromJSON(output)
+    if (length(df) == 0L) {
+        df <- tibble::tibble()
         for (field in fields) {
             if (grepl("^is", field)) {
                 df[[field]] <- logical(0L)
@@ -346,7 +347,6 @@ gh_repo_list <- function(owner = NULL, ...,
             }
         }
     } else {
-        df <- jsonlite::fromJSON(output)
         df <- df[, fields]
         df <- tibble::as_tibble(df)
     }
