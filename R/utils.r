@@ -41,7 +41,7 @@ gh_version <- function() {
 
 gh_args <- function(args, repo = NULL) {
     if (!is.null(repo)) {
-        repo <- assert_string(repo)
+        assert_string(repo)
         args <- c(args, "--repo", shQuote(repo))
     }
     args
