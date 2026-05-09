@@ -29,25 +29,27 @@
 #' @seealso <https://cli.github.com/manual/gh_browse>
 #' @export
 gh_browse <- function(what = NULL, ..., branch = NULL, repo = NULL) {
-    chkDots(...)
-    if (!is.null(what)) {
-        if (is.numeric(what))
-            what <- as.character(what)
-        assert_string(what)
-        if (grepl(what, "^(commit|projects|settings|wiki)$")) {
-            what <- switch(what,
-                commit = "--commit",
-                project = "--project",
-                settings = "--settings",
-                wiki = "--wiki"
-            )
-        }
-    }
-    args <- gh_args(c("browse", what), repo)
-    if (!is.null(branch)) {
-        branch <- assert_string(branch)
-        args <- c(args, "--branch", shQuote(branch))
-    }
-    gh_system2(args)
-    invisible(NULL)
+	chkDots(...)
+	if (!is.null(what)) {
+		if (is.numeric(what)) {
+			what <- as.character(what)
+		}
+		assert_string(what)
+		if (grepl(what, "^(commit|projects|settings|wiki)$")) {
+			what <- switch(
+				what,
+				commit = "--commit",
+				project = "--project",
+				settings = "--settings",
+				wiki = "--wiki"
+			)
+		}
+	}
+	args <- gh_args(c("browse", what), repo)
+	if (!is.null(branch)) {
+		branch <- assert_string(branch)
+		args <- c(args, "--branch", shQuote(branch))
+	}
+	gh_system2(args)
+	invisible(NULL)
 }
