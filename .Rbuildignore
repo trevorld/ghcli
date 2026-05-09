@@ -1,11 +1,14 @@
 ^cran-comments.md$
 ^docs$
-\.claude$
-\.git$
+^\.air.toml$
+^\.claude$
+^\.editorconfig$
+^\.git$
 ^\.github$
 ^unifont-13.0.06.hex.gz$
 ^\.lintr$
 ^_pkgdown.yml$
+^\.pre-commit-config.yaml$
 ^pkgdown$
 ^raw-data$
 ^codecov.yml$
