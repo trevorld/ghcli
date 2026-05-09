@@ -6,6 +6,7 @@ New features
 
 Functions for querying/editing GitHub repositories (repos):
 
+* `gh_api_graphql()` makes a GraphQL API request
 * `gh_browse()` opens up repo page in a web browser (#4)
 * `gh_issue_create()` creates issue (#3)
 * `gh_label_clone()` copies labels from another repo (#2)

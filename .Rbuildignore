@@ -1,5 +1,6 @@
 ^cran-comments.md$
 ^docs$
+\.claude$
 \.git$
 ^\.github$
 ^unifont-13.0.06.hex.gz$
