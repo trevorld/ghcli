@@ -25,24 +25,26 @@
 #' @seealso <https://cli.github.com/manual/gh_api>
 #' @export
 gh_api_graphql <- function(query, ..., variables = list(), repo = NULL) {
-    chkDots(...)
-    assert_string(query)
-    body <- list(query = query)
-    if (length(variables))
-        body[["variables"]] <- variables
-    tmp <- tempfile(fileext = ".json")
-    on.exit(unlink(tmp), add = TRUE)
-    writeLines(jsonlite::toJSON(body, auto_unbox = TRUE), tmp)
-    args <- c("api", "graphql", "--input", tmp)
-    env <- if (!is.null(repo)) {
-        assert_string(repo)
-        paste0("GH_REPO=", repo)
-    } else {
-        character(0)
-    }
-    output <- gh_system2(args, env = env)
-    result <- jsonlite::fromJSON(paste(output, collapse = "\n"))
-    if (!is.null(result[["errors"]]))
-        cli::cli_abort("GraphQL query failed: {result$errors[[1]]$message}")
-    result[["data"]]
+	chkDots(...)
+	assert_string(query)
+	body <- list(query = query)
+	if (length(variables)) {
+		body[["variables"]] <- variables
+	}
+	tmp <- tempfile(fileext = ".json")
+	on.exit(unlink(tmp), add = TRUE)
+	writeLines(jsonlite::toJSON(body, auto_unbox = TRUE), tmp)
+	args <- c("api", "graphql", "--input", tmp)
+	env <- if (!is.null(repo)) {
+		assert_string(repo)
+		paste0("GH_REPO=", repo)
+	} else {
+		character(0)
+	}
+	output <- gh_system2(args, env = env)
+	result <- jsonlite::fromJSON(paste(output, collapse = "\n"))
+	if (!is.null(result[["errors"]])) {
+		cli::cli_abort("GraphQL query failed: {result$errors[[1]]$message}")
+	}
+	result[["data"]]
 }
