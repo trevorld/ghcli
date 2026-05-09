@@ -1,6 +1,6 @@
 Package: ghcli
 Title: 'GitHub' Command-line Interface Wrappers
-Version: 0.0.1-11
+Version: 0.0.1-12
 Authors@R: c(person("Trevor L.", "Davis", role = c("aut", "cre"),
                     email = "trevor.l.davis@gmail.com",
                     comment = c(ORCID = "0000-0001-6341-4639")))
@@ -17,6 +17,6 @@ Imports:
     tibble
 SystemRequirements: gh
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 URL: https://github.com/trevorld/ghcli
 BugReports: https://github.com/trevorld/ghcli/issues
+Config/roxygen2/version: 8.0.0
